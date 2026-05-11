@@ -12,7 +12,7 @@ def extract_frames(video_path: str, output_folder: str = "data", fps: str = None
     """
     os.makedirs(output_folder, exist_ok=True)
 
-    output_pattern = os.path.join(output_folder, "frame_%06d.png")
+    output_pattern = os.path.join(output_folder, "frame_%06d.jpq")
 
     # Build ffmpeg command
     cmd = ["ffmpeg", "-i", video_path]
@@ -34,6 +34,4 @@ def extract_frames(video_path: str, output_folder: str = "data", fps: str = None
 
 
 # --- Usage ---
-extract_frames("your_video.mp4")                  # Every frame
-extract_frames("your_video.mp4", fps=1)           # 1 frame per second
-extract_frames("your_video.mp4", fps=24)          # 24 fps
+extract_frames("public/oldVids/ensantina.mp4", "public/newVids", fps=0.35)
