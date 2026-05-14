@@ -22,7 +22,7 @@ from ultralytics import YOLO
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     # Core training parameters.
-    parser.add_argument("--data", default="data/dataset/dataset.yaml",
+    parser.add_argument("--data", default="models/dataset/dataset.yaml",
                         help="Path to dataset.yaml (created by prepare_dataset.py)")
     parser.add_argument("--model", default="yolo11n.pt",
                         help="Base model to fine-tune (yolo11n/s/m/l/x.pt)")
