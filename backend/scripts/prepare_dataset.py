@@ -32,7 +32,7 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--export-dir", required=True,
                         help="Path to the Label Studio YOLO export directory")
-    parser.add_argument("--output", default="data/dataset",
+    parser.add_argument("--output", default="models/dataset",
                         help="Where to write the split dataset")
     parser.add_argument("--val-fraction", type=float, default=0.2,
                         help="Fraction of images to use for validation (0-1)")
