@@ -3,11 +3,11 @@
 body {
   margin: 0;
   background-color: #1a0f0a;
-  font-family: 'Georgia', serif;
+  font-family: "Georgia", serif;
 }
 
 .main {
-  margin:0;
+  margin: 0;
   max-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -24,8 +24,13 @@ body {
 }
 
 @keyframes bob {
-  0%, 100% { transform: translateY(0px); }
-  50%       { transform: translateY(-10px); }
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
 }
 
 .main p {
@@ -47,7 +52,7 @@ video {
 }
 
 .app-title {
-  font-family: 'Georgia', serif;
+  font-family: "Georgia", serif;
   font-size: 52px;
   color: #e8b99a;
   letter-spacing: 2px;
@@ -59,8 +64,13 @@ video {
 }
 
 @keyframes wiggle {
-  0%, 100% { transform: rotate(-1deg); }
-  50%       { transform: rotate(1deg); }
+  0%,
+  100% {
+    transform: rotate(-1deg);
+  }
+  50% {
+    transform: rotate(1deg);
+  }
 }
 
 /* FilePicker.css */
@@ -106,4 +116,42 @@ video {
   color: #a07050;
   font-size: 13px;
   font-family: sans-serif;
+}
+
+.sal-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+}
+
+.sal-button {
+  background-color: #2a1a14;
+  color: #e8b99a;
+  font-family: "Georgia", serif;
+  font-size: 20px;
+  letter-spacing: 1.5px;
+  padding: 12px 48px;
+  border: 2px solid #6b4c3b;
+  border-radius: 12px;
+  cursor: pointer;
+  box-shadow:
+    2px 2px 0px #6b4c3b,
+    4px 4px 0px #3b2318;
+
+  transition: all 0.15s ease-in-out;
+}
+
+.sal-button:hover {
+  background-color: #3b2318;
+  color: #f2ceb6;
+  transform: translate(-2px, -2px);
+  box-shadow:
+    4px 4px 0px #6b4c3b,
+    6px 6px 0px #3b2318;
+}
+
+.sal-button:active {
+  transform: translate(4px, 4px);
+  box-shadow: 0px 0px 0px #3b2318;
 }
