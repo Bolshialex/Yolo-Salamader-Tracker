@@ -14,7 +14,7 @@ function App() {
       try{
         const formData = new FormData();
         formData.append("video", file);
-        const res = await fetch("http://127.0.0.1:8000/track", {
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/track`, {
           method: "POST",
           body: formData,
         });
@@ -32,6 +32,9 @@ function App() {
 
   return (
     <div className="main">
+      <header>
+        <h1 className='app-title'>Sally the Salamander tracker</h1>
+      </header>
       <FilePicker onFileSelect={setFile} />
       {response?.video_url ? (
         <>
