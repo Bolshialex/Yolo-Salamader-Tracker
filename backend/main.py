@@ -31,6 +31,18 @@ def root():
 @app.post("/track")
 def start_track(video: UploadFile = File(...)):
     (VIDEOS_DIR / "input.mp4").write_bytes(video.file.read())
+    input_path = VIDEOS_DIR / "input.mp4"
+    cap = cv2.VideoCapture(str(input_path))
+    fps = cap.get(cv2.CAP_PROP_FPS)
+    width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
+    height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+    total = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
+    
+    ok, frame = cap.read()
+    result = model.track(frame, persist=True, verbose=False)[0]
+    print("detections in frame 0:", len(result.boxes), "classes:", result.boxes.cls.tolist())
+    cap.release()
+
     return {
         "status": "received",
         "video_url": f"http://localhost:8000/videos/input.mp4?t={int(time.time())}",
