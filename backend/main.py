@@ -1,6 +1,7 @@
 import time
 from pathlib import Path
-
+import cv2
+from ultralytics import YOLO
 from fastapi import FastAPI, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
@@ -9,6 +10,10 @@ VIDEOS_DIR = Path(__file__).parent / "public/videos"
 VIDEOS_DIR.mkdir(exist_ok=True)
 
 app = FastAPI(title="Salamander Tracker POC")
+
+model=YOLO("./models/best.pt")
+
+print(model.names)
 
 app.add_middleware(
     CORSMiddleware,
