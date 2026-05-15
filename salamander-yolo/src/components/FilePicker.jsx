@@ -4,9 +4,8 @@ export default function FilePicker({ onFileSelect }) {
   const [selectedFile, setSelectedFile] = useState(null);
 
   function handleFileChange(e) {
-    const file = e.target.files[0];
-    setSelectedFile(file);
-    onFileSelect(file);
+    e.preventDefault();
+    onFileSelect(selectedFile);
   }
 
   function handleFileNameUpdate(e) {
