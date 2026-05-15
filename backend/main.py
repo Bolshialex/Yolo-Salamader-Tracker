@@ -38,14 +38,29 @@ def start_track(video: UploadFile = File(...)):
     height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
     total = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
     
-    ok, frame = cap.read()
-    result = model.track(frame, persist=True, verbose=False)[0]
-    print("detections in frame 0:", len(result.boxes), "classes:", result.boxes.cls.tolist())
+    output_path = VIDEOS_DIR / "output.mp4"
+    writer = cv2.VideoWriter(
+        str(output_path),
+        cv2.VideoWriter_fourcc(*"avc1"),
+        fps,
+        (width, height),
+    )
+
+    for frame_idx in range(total):
+        ok, frame = cap.read()
+        if not ok:
+            break
+        result = model.track(frame, persist=True, verbose=False)[0]
+        writer.write(result.plot())
+        if frame_idx % 30 == 0:
+            print(f"frame {frame_idx}/{total}")
+
     cap.release()
+    writer.release()
 
     return {
         "status": "received",
-        "video_url": f"http://localhost:8000/videos/input.mp4?t={int(time.time())}",
+        "video_url": f"http://localhost:8000/videos/output.mp4?t={int(time.time())}",
     }
 
 
