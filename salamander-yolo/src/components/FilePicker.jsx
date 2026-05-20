@@ -3,18 +3,12 @@ import { useState } from "react";
 export default function FilePicker({ onFileSelect }) {
   const [selectedFile, setSelectedFile] = useState(null);
 
-<<<<<<< HEAD
   function handleSubmit(e) {
     e.preventDefault();
 
     if (selectedFile) {
       onFileSelect(selectedFile);
     }
-=======
-  function handleFileChange(e) {
-    e.preventDefault();
-    onFileSelect(selectedFile);
->>>>>>> 0aafee8abb36f573c6b8d62a6918b44dfdafc934
   }
 
   function handleFileChange(e) {
