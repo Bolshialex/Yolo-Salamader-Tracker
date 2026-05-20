@@ -1,7 +1,7 @@
 import time
 from pathlib import Path
 import cv2
-from ultralytics import YOLO
+from ultralytics import YOLO, solutions
 from fastapi import FastAPI, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
@@ -14,7 +14,6 @@ app = FastAPI(title="Salamander Tracker POC")
 
 model=YOLO("./models/best.pt")
 
-print(model.names)
 
 app.add_middleware(
     CORSMiddleware,
@@ -34,14 +33,23 @@ def start_track(video: UploadFile = File(...)):
     (VIDEOS_DIR / "input.mp4").write_bytes(video.file.read())
     input_path = VIDEOS_DIR / "input.mp4"
     cap = cv2.VideoCapture(str(input_path))
+    heatmap = solutions.Heatmap(colormap=cv2.COLORMAP_TWILIGHT, show=False, model=model)
     fps = cap.get(cv2.CAP_PROP_FPS)
     width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
     height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
     total = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
     
     output_path = VIDEOS_DIR / "output.mp4"
+    heatmap_output_path = VIDEOS_DIR / "heatmap_output.mp4"
     writer = cv2.VideoWriter(
         str(output_path),
+        cv2.VideoWriter_fourcc(*"avc1"),
+        fps,
+        (width, height),
+    )
+
+    heatmap_writer = cv2.VideoWriter(
+        str(heatmap_output_path),
         cv2.VideoWriter_fourcc(*"avc1"),
         fps,
         (width, height),
@@ -55,6 +63,11 @@ def start_track(video: UploadFile = File(...)):
         if not ok:
             break
         result = model.track(frame, persist=True, verbose=False)[0]
+        solution_result = heatmap(frame)
+        heatmap_frame = solution_result.plot_im
+        if heatmap_frame is None:
+            heatmap_frame = frame
+        heatmap_writer.write(heatmap_frame)
         writer.write(result.plot())
         boxes = result.boxes
         if boxes is not None and boxes.id is not None:
@@ -66,6 +79,7 @@ def start_track(video: UploadFile = File(...)):
 
     cap.release()
     writer.release()
+    heatmap_writer.release()
 
     tracks = [
         {
@@ -80,6 +94,7 @@ def start_track(video: UploadFile = File(...)):
         "status": "done",
         "video_url": f"http://localhost:8000/videos/output.mp4?t={int(time.time())}",
         "tracks": tracks,
+        "heatmap_url": f"http://localhost:8000/videos/heatmap_output.mp4?t={int(time.time())}"
     }
 
 
