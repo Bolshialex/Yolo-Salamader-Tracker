@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export default function FilePicker({ onFileSelect }) {
+export default function FilePicker({ onFileSelect, isLoading }) {
   const [selectedFile, setSelectedFile] = useState(null);
 
   function handleSubmit(e) {
@@ -29,17 +29,24 @@ export default function FilePicker({ onFileSelect }) {
           <div className="file-picker-label">
             Drop a File or <span>Browse</span>
           </div>
-
-          <input onChange={handleFileChange} type="file" id="video" />
+          <input
+            onChange={handleFileChange}
+            type="file"
+            id="video"
+            disabled={isLoading}
+          />
 
           <p>
             uploaded file:{" "}
             <span>{selectedFile ? selectedFile.name : "None"}</span>
           </p>
         </label>
-
-        <button type="submit" className="sal-button">
-          Submit
+        <button
+          type="submit"
+          className="sal-button"
+          disabled={isLoading || !selectedFile}
+        >
+          {isLoading ? "Uploading..." : "Submit"}
         </button>
       </form>
     </div>

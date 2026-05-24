@@ -2,25 +2,31 @@
 
 body {
   margin: 0;
-  background-color: #1a0f0a;
-  font-family: "Georgia", serif;
+  background-color: #111a14; /* Deep dark forest */
+  font-family:
+    system-ui,
+    -apple-system,
+    sans-serif;
+  color: #e0d5c1;
 }
 
 .main {
   margin: 0;
-  max-height: 100vh;
+  min-height: 100vh; /* Changed from max-height so it can scroll when videos load */
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 32px;
-  padding: 48px;
+  padding: 48px 24px;
+  box-sizing: border-box;
 }
 
 .main::before {
   content: "🦎";
-  font-size: 48px;
+  font-size: 56px;
   animation: bob 3s ease-in-out infinite;
+  filter: drop-shadow(0 0 8px rgba(255, 122, 51, 0.4));
 }
 
 @keyframes bob {
@@ -29,22 +35,25 @@ body {
     transform: translateY(0px);
   }
   50% {
-    transform: translateY(-10px);
+    transform: translateY(-12px);
   }
 }
 
 .main p {
-  color: #c49a7a;
-  font-size: 14px;
+  color: #a3b8a8;
+  font-size: 15px;
   font-style: italic;
   letter-spacing: 0.4px;
+  text-align: center;
 }
 
 video {
   width: 560px;
+  max-width: 100%; /* Ensures it scales down on mobile screens */
   border-radius: 12px;
-  border: 2px solid #6b4c3b;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+  border: 2px solid #2a4231;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.7);
+  background-color: #000;
 }
 
 .app-header {
@@ -53,13 +62,14 @@ video {
 
 .app-title {
   font-family: "Georgia", serif;
-  font-size: 52px;
-  color: #e8b99a;
+  font-size: 48px;
+  color: #ff7a33; /* Salamander Orange */
   letter-spacing: 2px;
   margin: 0;
+  text-align: center;
   text-shadow:
-    2px 2px 0px #6b4c3b,
-    4px 4px 0px #3b2318;
+    2px 2px 0px #2a4231,
+    4px 4px 0px #152119;
   animation: wiggle 6s ease-in-out infinite;
 }
 
@@ -81,41 +91,34 @@ video {
   align-items: center;
   justify-content: center;
   width: 320px;
-  padding: 32px;
-  border: 2px dashed #6b4c3b;
-  border-radius: 12px;
-  background-color: #2a1a14;
+  padding: 40px 32px;
+  border: 2px dashed #2a4231;
+  border-radius: 16px;
+  background-color: #18261c;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: all 0.2s ease;
 }
 
 .file-picker:hover {
-  background-color: #3b2318;
+  background-color: #213326;
+  border-color: #ff7a33;
 }
 
 .file-picker input[type="file"] {
-  display: none; /* hides the ugly default input */
+  display: none;
 }
 
 .file-picker-label {
-  color: #c49a7a;
-  font-size: 14px;
-  font-family: sans-serif;
+  color: #a3b8a8;
+  font-size: 16px;
   cursor: pointer;
   letter-spacing: 0.5px;
 }
 
 .file-picker-label span {
-  color: #e8b99a;
+  color: #ff7a33;
   font-weight: 600;
   text-decoration: underline;
-}
-
-.file-picker-name {
-  margin-top: 12px;
-  color: #a07050;
-  font-size: 13px;
-  font-family: sans-serif;
 }
 
 .sal-form {
@@ -125,33 +128,69 @@ video {
   gap: 32px;
 }
 
+/* Custom Progress Bar Styling */
+progress {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  max-width: 400px;
+  height: 12px;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+progress::-webkit-progress-bar {
+  background-color: #18261c;
+  border: 1px solid #2a4231;
+  border-radius: 8px;
+}
+
+progress::-webkit-progress-value {
+  background-color: #ff7a33;
+  transition: width 0.3s ease;
+}
+
+progress::-moz-progress-bar {
+  background-color: #ff7a33;
+}
+
+/* Button Styling */
 .sal-button {
-  background-color: #2a1a14;
-  color: #e8b99a;
+  background-color: #18261c;
+  color: #ff7a33;
   font-family: "Georgia", serif;
   font-size: 20px;
+  font-weight: bold;
   letter-spacing: 1.5px;
   padding: 12px 48px;
-  border: 2px solid #6b4c3b;
+  border: 2px solid #2a4231;
   border-radius: 12px;
   cursor: pointer;
   box-shadow:
-    2px 2px 0px #6b4c3b,
-    4px 4px 0px #3b2318;
-
-  transition: all 0.15s ease-in-out;
+    2px 2px 0px #2a4231,
+    4px 4px 0px #152119;
+  transition: all 0.1s ease-in-out;
 }
 
-.sal-button:hover {
-  background-color: #3b2318;
-  color: #f2ceb6;
+.sal-button:hover:not(:disabled) {
+  background-color: #213326;
+  color: #ff9866;
   transform: translate(-2px, -2px);
   box-shadow:
-    4px 4px 0px #6b4c3b,
-    6px 6px 0px #3b2318;
+    4px 4px 0px #2a4231,
+    6px 6px 0px #152119;
 }
 
-.sal-button:active {
+.sal-button:active:not(:disabled) {
   transform: translate(4px, 4px);
-  box-shadow: 0px 0px 0px #3b2318;
+  box-shadow: 0px 0px 0px #152119;
+}
+
+.sal-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow:
+    2px 2px 0px #2a4231,
+    4px 4px 0px #152119;
 }
