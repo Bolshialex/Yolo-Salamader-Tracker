@@ -9,6 +9,7 @@ function App() {
   const [status, setStatus] = useState("idle");
   const [percent, setPercent] = useState(0);
   const [errorMsg, setErrorMsg] = useState("");
+  const [tracks, setTracks] = useState(null);
 
   function handleReset() {
     setFile(null);
@@ -49,6 +50,7 @@ function App() {
             setPercent(100);
             setResponse(data.result);
             setStatus("done");
+            setTracks(data.result.tracks)
             break;
           } else if (data.status === "error") {
             setErrorMsg(data.message || "An unknown error occurred.");
@@ -113,6 +115,29 @@ function App() {
             </>
           )}
 
+          {tracks != null && (
+            <div className="tracks-table-section">
+            <p>Time On Screen</p>
+            <table className="tracks-table">
+              <thead>
+                <tr>
+                  <th>Label Name</th>
+                  <th>Time on screen</th>
+                  <th>Track ID</th>
+                </tr>
+              </thead>
+              <tbody>
+                {tracks.map((track, index) => (
+                  <tr key={track.id}>
+                    <td>{track.label}</td>
+                    <td>{track.time_on_screen_s}</td>
+                    <td>{track.track_id}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            </ div>
+          )}
           <div>
             <button onClick={handleReset} className="sal-button">
               Upload Another Video
